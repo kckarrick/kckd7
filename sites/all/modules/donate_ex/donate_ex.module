@@ -1,0 +1,31 @@
+<?php
+
+/**
+ *  @file
+ *    donate_ex module, created to extend our donation webform
+ *
+ *  @author Kevin Karrick <kckarrick@gmail.com>
+ */
+
+/**
+ *  Implementation of hook_form_alter().
+ */
+function donate_ex_form_alter(&$form, &$form_state, $form_id) {
+  donate_ex_dblog('donate_ex', 'form_alter', array('form'=>$form, 'fs'=>$form_state, 'id'=>$form_id));
+}
+
+/**
+ *  Does a watchdog with a nicely printed data object.
+ *
+ *  @param $context
+ *    usually the theme or module name (first arg for watchdog)
+ *  @param $message
+ *    the message
+ *  @param $data
+ *    data structure, or array of structures
+ *
+ */
+function donate_ex_dblog($context, $message, $data) {
+  $pdata = print_r($data, true);
+  watchdog($context, $message . ': <pre>@b1234</pre>', array('@b1234' => $pdata));
+}
