@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the aw_public module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function donate_ex_install() {
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function donate_ex_uninstall() {
+
+}
+

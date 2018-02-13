@@ -1,0 +1,8 @@
+name = Donate Extend
+package = Donate
+description = Extend the donation form and function
+dependencies[] = webform (>= 4.x)
+
+version = 7.x
+project = donate_ex
+core = 7.x
