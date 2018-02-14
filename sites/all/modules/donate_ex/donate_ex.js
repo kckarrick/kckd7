@@ -4,7 +4,7 @@
 //Drupal.behaviors.donate_ex = {
 //  attach: function (context, settings) {
 
-$(document).ready(function() {
+jQuery(document).ready(function() {
     console.log('Inside donate_ex.js');
 
     jQuery('.form-item-submitted-amount-options').change(function () {
