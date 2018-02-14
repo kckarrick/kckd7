@@ -16,7 +16,9 @@ function donate_ex_form_alter(&$form, &$form_state, $form_id) {
   // Test for having a node object, and if it's our Donate node
   if (isset($form['#node'])) {
     if ($form['#node']->title == 'Donate') {
-      drupal_add_js(drupal_get_path('module', 'donate_ex') . '/donate_ex.js', array('type' => 'file'));
+      $mpath = drupal_get_path('module', 'donate_ex');
+      drupal_add_js($mpath . '/donate_ex.js', array('type' => 'file'));
+      drupal_add_css($mpath . '/donate_ex.css', array('type' => 'file'));
     }
   }
 }
