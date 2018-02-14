@@ -11,9 +11,9 @@
  *  Implementation of hook_form_alter().
  */
 function donate_ex_form_alter(&$form, &$form_state, $form_id) {
-  donate_ex_dblog('donate_ex', 'form_alter', array('form'=>$form, 'fs'=>$form_state, 'id'=>$form_id));
+  //donate_ex_dblog('donate_ex', 'form_alter', array('form'=>$form, 'fs'=>$form_state, 'id'=>$form_id));
 
-  // Test for having a node object, and if it's our Donate node
+  // Test for having a node object, and whether it's our Donate node
   if (isset($form['#node'])) {
     if ($form['#node']->title == 'Donate') {
       $mpath = drupal_get_path('module', 'donate_ex');
@@ -21,6 +21,11 @@ function donate_ex_form_alter(&$form, &$form_state, $form_id) {
       drupal_add_css($mpath . '/donate_ex.css', array('type' => 'file'));
     }
   }
+}
+
+function donate_ex_client_form_submit_alter($form, &$form_state) {
+  donate_ex_dblog('donate_ex', 'client_form_submit_alter', array('form'=>$form, 'fs'=>$form_state));
+
 }
 
 /**
