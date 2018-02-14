@@ -66,13 +66,11 @@ function donate_ex_schools_schema() {
   );
   return $schema;
 }
-/*
+
 function donate_ex_update_6100() {
   $ret = array();
-  $schema = donate_ex_schools_schema();
 
-  $success = drupal_install_schema('artistworks_home_schoolers');
-
+  $success = drupal_install_schema('donate_ex_payments');
   if ($success) {
     $message = 'Donate Ex schema successfully installed';
   }
@@ -83,6 +81,5 @@ function donate_ex_update_6100() {
   watchdog('donate_ex', $message);
   return $ret;
 }
-*/
 
 
