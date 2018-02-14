@@ -1,5 +1,5 @@
 /* donate_ex css */
 
-#edit-submitted-amount {
+.amount_wrapper {
   display: none;
 }

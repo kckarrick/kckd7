@@ -19,10 +19,11 @@
         }
         $('#edit-submitted-amount').val(theval);
         if (theval == '') {
-          $('#edit-submitted-amount').focus().show();
+          $('.amount_wrapper').show();
+          $('#edit-submitted-amount').focus()
         }
         else {
-          $('#edit-submitted-amount').hide();
+          $('.amount_wrapper').hide();
         }
       });
     }
