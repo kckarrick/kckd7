@@ -70,10 +70,10 @@ function donate_ex_schools_schema() {
 /**
  *  Add the donate_ex_payments table.
  */
-function donate_ex_update_6100() {
+function donate_ex_update_6101() {
   $ret = array();
 
-  $success = drupal_install_schema('donate_ex_payments');
+  $success = drupal_install_schema('donate_ex');
   if ($success) {
     $message = 'Donate Ex schema successfully installed';
   }
