@@ -15,6 +15,7 @@ function donate_ex_schools_schema() {
   $schema = array();
 
   $schema['donate_ex_payments'] = array(
+    'description' => 'Record of donations',
     'fields' => array(
       'id' => array(
         'description' => 'autoincrement identifier',
@@ -46,14 +47,12 @@ function donate_ex_schools_schema() {
         'size' => 'medium',
         'not null' => TRUE,
         'unsigned' => TRUE,
-        'default' => 0,
       ),
       'timestamp' => array(
         'description' => 'Contribution timestamp',
         'type' => 'int',
         'not null' => TRUE,
         'unsigned' => TRUE,
-        'default' => 0,
       ),
       'payment' => array(
         'description' => 'Payment token',
@@ -74,7 +73,8 @@ function donate_ex_schools_schema() {
 function donate_ex_enable() {
 
   if (!db_table_exists('donate_ex_payments')) {
-    $schema = module_invoke('donate_ex', 'schema');
+    //$schema = module_invoke('donate_ex', 'schema');
+    $schema = donate_ex_schools_schema();
     db_create_table('donate_ex_payments', $schema['donate_ex_payments']);
   }
 }
