@@ -30,14 +30,14 @@ function donate_ex_schools_schema() {
       ),
       'email' => array(
         'description' => 'Contributor email',
-        'type'=> 'varchar',
-        'size' => '255',
+        'type' => 'varchar',
+        'length' => '255',
         'not null' => TRUE,
       ),
       'amount_options' => array(
         'description' => 'Amount option selection',
         'type'=> 'varchar',
-        'size' => '32',
+        'length' => '32',
         'not null' => FALSE,
       ),
       'amount' => array(
@@ -58,7 +58,7 @@ function donate_ex_schools_schema() {
       'payment' => array(
         'description' => 'Payment token',
         'type'=> 'varchar',
-        'size' => '255',
+        'length' => '255',
         'not null' => FALSE,
       ),
     ),
@@ -69,6 +69,7 @@ function donate_ex_schools_schema() {
 
 /**
  *  Implements hook_enable();
+ *
  */
 function donate_ex_enable() {
 
@@ -86,10 +87,10 @@ function donate_ex_update_6101() {
 
   $success = drupal_install_schema('donate_ex');
   if ($success) {
-    $message = 'Donate Ex schema successfully installed';
+    $message = 'Donate Extend schema successfully installed';
   }
   else {
-    $message = 'Donate Ex schema install failed';
+    $message = 'Donate Extend schema install failed';
   }
   drupal_set_message($message);
   watchdog('donate_ex', $message);
