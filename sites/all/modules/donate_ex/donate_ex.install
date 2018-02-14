@@ -82,7 +82,7 @@ function donate_ex_enable() {
 /**
  *  Add the donate_ex_payments table.
  */
-function donate_ex_update_6101() {
+function donate_ex_update_6102() {
   $ret = array();
 
   $success = drupal_install_schema('donate_ex');
