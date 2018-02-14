@@ -67,4 +67,22 @@ function artistworks_schools_schema() {
   return $schema;
 }
 
+function donate_ex_update_6100() {
+  $ret = array();
+  $schema = artistworks_home_schoolers_schema();
+
+  $success = drupal_install_schema('artistworks_home_schoolers');
+
+  if ($success) {
+    $message = 'Donate Ex schema successfully installed';
+  }
+  else {
+    $message = 'Donate Ex schema install failed';
+  }
+  drupal_set_message($message);
+  watchdog('donate_ex', $message);
+  return $ret;
+}
+
+
 
