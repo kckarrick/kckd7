@@ -8,6 +8,18 @@
  */
 
 /**
+ *  Implements hook_menu().
+ */
+function donate_ex_menu() {
+  $items['donate/report/csv'] = array(
+    'title' => 'Report donations',
+    'description' => 'Output a CSV of donations',
+    'access arguments' => array('View published content'),
+    'page callback' => 'donate_ex_report',
+  );
+}
+
+/**
  *  Implementation of hook_form_alter().
  */
 function donate_ex_form_alter(&$form, &$form_state, $form_id) {
@@ -46,24 +58,44 @@ function donate_ex_form_alter(&$form, &$form_state, $form_id) {
  *       )
  */
 function _donate_ex_after_stripe_submit(&$form, &$form_state) {
-  donate_ex_dblog('donate_ex', 'after_stripe_submit', array('form'=>$form, 'fs'=>$form_state));
 
+  // Make sure the data exists
   if (isset($form_state['input']['submitted'])) {
     $record = $form_state['input']['submitted'];
 
-    // Add a timestamp
+    // Add a timestamp and save it
     $record['timestamp'] = time();
     donate_ex_dblog('donate_ex', 'after_stripe_submit record', $record);
-
-    // Convenient to use the Drupal function, since all the field names = the $record keys.
-//    drupal_write_record('donate_ex_payments', $record);
-
     db_insert('donate_ex_payments')
       ->fields($record)
       ->execute();
   }
 }
 
+/**
+ *  Generate a CSV report of all donations, reverse chronological
+ */
+function donate_ex_report() {
+
+  $result = db_select('donate_ex_payments', 'd')
+            ->fields('d')
+            ->orderBy('timestamp', 'DESC')
+            ->execute()
+            ->fetchAll();
+  $output = "Timestamp,Name,Email,Amount Options,Amount,Payment Token\n";
+
+  foreach ($result as $row) {
+
+    donate_ex_dblog('donate_ex', 'report row', $row);
+    $amount = number_format($row->amount, 2, '');
+    $date_time = date('Y-m-d H:i', $row->timestamp);
+    $output .= "{$date_time},{$row->name},{$row->email},{$row->amount_options},{$amount},{$row->payment}\n";
+  }
+  header('Content-Type: text/csv; utf-8');
+  header('Content-Disposition: attachment;filename=donation_report.csv');
+  print($output);
+  exit;
+}
 
 /**
  *  Does a watchdog with a nicely printed data object.

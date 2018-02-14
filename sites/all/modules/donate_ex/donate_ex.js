@@ -6,7 +6,6 @@
     attach: function (context, settings) {
 
       $('input[type=radio][name="submitted[amount_options]"]').change(function () {
-        console.log('value: ' + this.value);
         var theval = '';
         if (this.value == 'a1') {
           theval = '20';
