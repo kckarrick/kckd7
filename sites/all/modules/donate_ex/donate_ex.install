@@ -31,13 +31,13 @@ function donate_ex_schools_schema() {
       'email' => array(
         'description' => 'Contributor email',
         'type' => 'varchar',
-        'length' => '255',
+        'length' => 255,
         'not null' => TRUE,
       ),
       'amount_options' => array(
         'description' => 'Amount option selection',
         'type'=> 'varchar',
-        'length' => '32',
+        'length' => 32,
         'not null' => FALSE,
       ),
       'amount' => array(
@@ -58,7 +58,7 @@ function donate_ex_schools_schema() {
       'payment' => array(
         'description' => 'Payment token',
         'type'=> 'varchar',
-        'length' => '255',
+        'length' => 255,
         'not null' => FALSE,
       ),
     ),
