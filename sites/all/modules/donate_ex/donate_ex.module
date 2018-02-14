@@ -15,23 +15,48 @@ function donate_ex_form_alter(&$form, &$form_state, $form_id) {
   // Test for having a node object, and whether it's our Donate node
   if (isset($form['#node'])) {
     if ($form['#node']->title == 'Donate') {
-      donate_ex_dblog('donate_ex', 'form_alter', array('form'=>$form, 'fs'=>$form_state, 'id'=>$form_id));
+
+      //donate_ex_dblog('donate_ex', 'form_alter', array('form'=>$form, 'fs'=>$form_state, 'id'=>$form_id));
       $mpath = drupal_get_path('module', 'donate_ex');
       drupal_add_js($mpath . '/donate_ex.js', array('type' => 'file'));
       drupal_add_css($mpath . '/donate_ex.css', array('type' => 'file'));
 
       // webform_stripe sets up a replacement form_submit for webform. After a successful payment,
-      // it calls the webform standard submit. Add a submit function in this module,
+      // it calls the webform standard submit. Add a submit function of our own,
       // so we can collect client data for the stripe payment.
       $form['#submit'][] = '_donate_ex_after_stripe_submit';
     }
   }
 }
 
+/**
+ *  Addition form submission for our stripe webform.
+ *
+ *  This occurs after a successful stripe payment. Save the input data
+ *  in the custom table for this module.
+ *
+ *  The Structure under $form_state[input] looks like:
+ *   [submitted] => Array
+ *       (
+ *           [name] => Sally
+ *           [email] => Sally@me.com
+ *           [amount_options] => a3
+ *           [amount] => 100
+ *           [payment] => tok_1BvTddEzb8a1yx4CxisyZ2SD:Sally@me.com
+ *       )
+ */
 function _donate_ex_after_stripe_submit(&$form, &$form_state) {
-
   donate_ex_dblog('donate_ex', 'after_stripe_submit', array('form'=>$form, 'fs'=>$form_state));
 
+  if (isset($form_state['input']['submitted'])) {
+    $record = $form_state['input']['submitted'];
+
+    // Add a timestamp
+    $record['time'] = time();
+
+    // Convenient to use the Drupal function, since all the field names = the $record keys.
+    drupal_write_record('', $record);
+  }
 }
 
 
