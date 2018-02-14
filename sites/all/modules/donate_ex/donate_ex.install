@@ -11,7 +11,7 @@
 /**
  *  Implementation of hook_schema().
  */
-function artistworks_schools_schema() {
+function donate_ex_schools_schema() {
   $schema = array();
 
   $schema['donate_ex_payments'] = array(
@@ -66,10 +66,10 @@ function artistworks_schools_schema() {
   );
   return $schema;
 }
-
+/*
 function donate_ex_update_6100() {
   $ret = array();
-  $schema = artistworks_home_schoolers_schema();
+  $schema = donate_ex_schools_schema();
 
   $success = drupal_install_schema('artistworks_home_schoolers');
 
@@ -83,6 +83,6 @@ function donate_ex_update_6100() {
   watchdog('donate_ex', $message);
   return $ret;
 }
-
+*/
 
 
