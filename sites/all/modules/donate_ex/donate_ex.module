@@ -8,19 +8,92 @@
  */
 
 /**
+ *  Implements hook_menu().
+ */
+function donate_ex_menu() {
+  $items = array();
+  $items['donate/report/csv'] = array(
+    'title' => 'Report donations',
+    'description' => 'Output a CSV of donations',
+    'access arguments' => array('access content'),
+    'page callback' => 'donate_ex_report',
+    'type'  => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
  *  Implementation of hook_form_alter().
  */
 function donate_ex_form_alter(&$form, &$form_state, $form_id) {
-  donate_ex_dblog('donate_ex', 'form_alter', array('form'=>$form, 'fs'=>$form_state, 'id'=>$form_id));
 
-  // Test for having a node object, and if it's our Donate node
+  // Test for having a node object, and whether it's our Donate node
   if (isset($form['#node'])) {
     if ($form['#node']->title == 'Donate') {
+
+      //donate_ex_dblog('donate_ex', 'form_alter', array('form'=>$form, 'fs'=>$form_state, 'id'=>$form_id));
       $mpath = drupal_get_path('module', 'donate_ex');
       drupal_add_js($mpath . '/donate_ex.js', array('type' => 'file'));
       drupal_add_css($mpath . '/donate_ex.css', array('type' => 'file'));
+
+      // webform_stripe sets up a replacement form_submit for webform. After a successful payment,
+      // it calls the webform standard submit. Add a submit function of our own,
+      // so we can collect client data for the stripe payment.
+      $form['#submit'][] = '_donate_ex_after_stripe_submit';
     }
   }
+}
+
+/**
+ *  Addition form submission for our stripe webform.
+ *
+ *  This occurs after a successful stripe payment. Save the input data
+ *  in the custom table for this module.
+ *
+ *  The Structure under $form_state[input] looks like:
+ *   [submitted] => Array
+ *       (
+ *           [name] => Sally
+ *           [email] => Sally@me.com
+ *           [amount_options] => a3
+ *           [amount] => 100
+ *           [payment] => tok_1BvTddEzb8a1yx4CxisyZ2SD:Sally@me.com
+ *       )
+ */
+function _donate_ex_after_stripe_submit(&$form, &$form_state) {
+
+  // Make sure the data exists
+  if (isset($form_state['input']['submitted'])) {
+    $record = $form_state['input']['submitted'];
+
+    // Add a timestamp and save it
+    $record['timestamp'] = time();
+    db_insert('donate_ex_payments')
+      ->fields($record)
+      ->execute();
+  }
+}
+
+/**
+ *  Generate a CSV report of all donations, reverse chronological
+ */
+function donate_ex_report() {
+
+  $result = db_select('donate_ex_payments', 'd')
+            ->fields('d')
+            ->orderBy('timestamp', 'DESC')
+            ->execute()
+            ->fetchAll();
+  $output = "Timestamp,Name,Email,Amount Options,Amount,Payment Token\n";
+  foreach ($result as $row) {
+    $amount = number_format($row->amount, 2, '.', '');
+    $date_time = date('Y-m-d H:i', $row->timestamp);
+    $output .= "{$date_time},{$row->name},{$row->email},{$row->amount_options},{$amount},{$row->payment}\n";
+  }
+  header('Content-Type: text/csv; utf-8');
+  header('Content-Disposition: attachment;filename=donation_report.csv');
+  print($output);
+  exit;
 }
 
 /**

@@ -1,21 +1,69 @@
 <?php
 
 /**
- * @file
- * Install, update, and uninstall functions for the aw_public module.
+ *  @file
+ *  Installation, schema and updates for the donate_ex module.
+ *
  */
+
+
 
 /**
- * Implements hook_install().
+ *  Implementation of hook_schema().
  */
-function donate_ex_install() {
+function donate_ex_schools_schema() {
+  $schema = array();
 
+  $schema['donate_ex_payments'] = array(
+    'description' => 'Record of donations',
+    'fields' => array(
+      'id' => array(
+        'description' => 'autoincrement identifier',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'Name of contributor',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'email' => array(
+        'description' => 'Contributor email',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'amount_options' => array(
+        'description' => 'Amount option selection',
+        'type'=> 'varchar',
+        'length' => 32,
+        'not null' => FALSE,
+      ),
+      'amount' => array(
+        'description' => 'Contribution amount',
+        'type' => 'int',
+        'size' => 'medium',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'Contribution timestamp',
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),
+      'payment' => array(
+        'description' => 'Payment token',
+        'type'=> 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id', 'timestamp'),
+  );
+  return $schema;
 }
 
-/**
- * Implements hook_uninstall().
- */
-function donate_ex_uninstall() {
-
-}
 
