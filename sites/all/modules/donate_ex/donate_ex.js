@@ -2,6 +2,8 @@
 
 (function ($) {
 
+  console.log('Inside donate_ex.js');
+
   //Drupal.behaviors.donate_ex1 = {
   //  attach: function (context, settings) {
 
@@ -19,4 +21,5 @@
 
   //  }
   //}
+
 })(jQuery);
