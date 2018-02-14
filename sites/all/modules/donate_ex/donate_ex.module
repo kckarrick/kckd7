@@ -88,7 +88,7 @@ function donate_ex_report() {
   $output = "Timestamp,Name,Email,Amount Options,Amount,Payment Token\n";
   foreach ($result as $row) {
     donate_ex_dblog('donate_ex', 'report row', $row);
-    $amount = number_format($row->amount, 2, '');
+    $amount = number_format($row->amount, 2, '.', '');
     $date_time = date('Y-m-d H:i', $row->timestamp);
     $output .= "{$date_time},{$row->name},{$row->email},{$row->amount_options},{$amount},{$row->payment}\n";
   }
