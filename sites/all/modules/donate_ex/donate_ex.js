@@ -11,7 +11,7 @@
       console.log('Inside donate_ex.js');
 
       $('.form-item-submitted-amount-options').change(function () {
-        console.log('1: ' + this.value);
+        console.log('1: ' + $(this).val());
       });
 
       //$('input[type=radio][name=submitted[amount_options]]').change(function () {
