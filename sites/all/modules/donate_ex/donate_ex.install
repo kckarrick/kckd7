@@ -72,8 +72,7 @@ function donate_ex_schools_schema() {
  */
 function donate_ex_enable() {
 
-  if (!db_table_exists) {
-
+  if (!db_table_exists('donate_ex_payments')) {
     $schema = module_invoke('donate_ex', 'schema');
     db_create_table('donate_ex_payments', $schema['donate_ex_payments']);
   }
