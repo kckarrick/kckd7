@@ -1,7 +1,6 @@
-/**
- *  donate_ex module js
- *
- */
+// donate_ex module js
+
+
 Drupal.behaviors.donate_ex = {
   attach: function (context, settings) {
 
