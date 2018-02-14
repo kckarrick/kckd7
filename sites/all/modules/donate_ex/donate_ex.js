@@ -14,9 +14,9 @@
         console.log('1: ' + $(this).val());
       });
 
-      //$('input[type=radio][name=submitted[amount_options]]').change(function () {
-      //  console.log('2' + this.value);
-      //});
+      $('input[type=radio][name="submitted[amount_options]"]').change(function () {
+        console.log('2' + $(this));
+      });
   });
 
   //  }
