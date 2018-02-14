@@ -52,6 +52,7 @@ function _donate_ex_after_stripe_submit(&$form, &$form_state) {
     $record = $form_state['input']['submitted'];
 
     // Add a timestamp
+    $record['id'] = 0;
     $record['timestamp'] = time();
     donate_ex_dblog('donate_ex', 'after_stripe_submit record', $record);
 
