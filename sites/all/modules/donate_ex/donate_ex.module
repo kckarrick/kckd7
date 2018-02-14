@@ -15,7 +15,7 @@ function donate_ex_menu() {
   $items['donate/report/csv'] = array(
     'title' => 'Report donations',
     'description' => 'Output a CSV of donations',
-    'access arguments' => array('View published content'),
+    'access arguments' => array('access content'),
     'page callback' => 'donate_ex_report',
     'type'  => MENU_CALLBACK,
   );
@@ -68,7 +68,6 @@ function _donate_ex_after_stripe_submit(&$form, &$form_state) {
 
     // Add a timestamp and save it
     $record['timestamp'] = time();
-    donate_ex_dblog('donate_ex', 'after_stripe_submit record', $record);
     db_insert('donate_ex_payments')
       ->fields($record)
       ->execute();
@@ -87,7 +86,6 @@ function donate_ex_report() {
             ->fetchAll();
   $output = "Timestamp,Name,Email,Amount Options,Amount,Payment Token\n";
   foreach ($result as $row) {
-    donate_ex_dblog('donate_ex', 'report row', $row);
     $amount = number_format($row->amount, 2, '.', '');
     $date_time = date('Y-m-d H:i', $row->timestamp);
     $output .= "{$date_time},{$row->name},{$row->email},{$row->amount_options},{$amount},{$row->payment}\n";
