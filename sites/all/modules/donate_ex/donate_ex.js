@@ -15,7 +15,7 @@
       });
 
       $('input[type=radio][name="submitted[amount_options]"]').change(function () {
-        console.log('2' + $(this));
+        console.log('2' + this.value);
       });
   });
 
