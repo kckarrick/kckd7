@@ -11,12 +11,15 @@
  *  Implements hook_menu().
  */
 function donate_ex_menu() {
+  $items = array();
   $items['donate/report/csv'] = array(
     'title' => 'Report donations',
     'description' => 'Output a CSV of donations',
     'access arguments' => array('View published content'),
     'page callback' => 'donate_ex_report',
+    'type'  => MENU_CALLBACK,
   );
+  return $items;
 }
 
 /**
@@ -83,9 +86,7 @@ function donate_ex_report() {
             ->execute()
             ->fetchAll();
   $output = "Timestamp,Name,Email,Amount Options,Amount,Payment Token\n";
-
   foreach ($result as $row) {
-
     donate_ex_dblog('donate_ex', 'report row', $row);
     $amount = number_format($row->amount, 2, '');
     $date_time = date('Y-m-d H:i', $row->timestamp);
