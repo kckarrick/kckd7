@@ -14,7 +14,7 @@ function donate_ex_form_alter(&$form, &$form_state, $form_id) {
   donate_ex_dblog('donate_ex', 'form_alter', array('form'=>$form, 'fs'=>$form_state, 'id'=>$form_id));
 
   if ($form['#node']->title == 'Donate') {
-    drupal_add_js(drupal_get_path('theme', 'donate_ex') . '/donate_ex.js', array('type' => 'file'));
+    drupal_add_js(drupal_get_path('module', 'donate_ex') . '/donate_ex.js', array('type' => 'file'));
   }
 }
 
