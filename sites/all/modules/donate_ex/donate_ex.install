@@ -68,6 +68,18 @@ function donate_ex_schools_schema() {
 }
 
 /**
+ *  Implements hook_enable();
+ */
+function donate_ex_enable() {
+
+  if (!db_table_exists) {
+
+    $schema = module_invoke('donate_ex', 'schema');
+    db_create_table('donate_ex_payments', $schema['donate_ex_payments']);
+  }
+}
+
+/**
  *  Add the donate_ex_payments table.
  */
 function donate_ex_update_6101() {
