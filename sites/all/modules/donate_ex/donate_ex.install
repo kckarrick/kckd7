@@ -48,7 +48,7 @@ function donate_ex_schools_schema() {
         'unsigned' => TRUE,
         'default' => 0,
       ),
-      'time' => array(
+      'timestamp' => array(
         'description' => 'Contribution timestamp',
         'type' => 'int',
         'not null' => TRUE,
@@ -62,11 +62,14 @@ function donate_ex_schools_schema() {
         'not null' => FALSE,
       ),
     ),
-    'primary key' => array('id'),
+    'primary key' => array('id', 'timestamp'),
   );
   return $schema;
 }
 
+/**
+ *  Add the donate_ex_payments table.
+ */
 function donate_ex_update_6100() {
   $ret = array();
 

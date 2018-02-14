@@ -52,7 +52,7 @@ function _donate_ex_after_stripe_submit(&$form, &$form_state) {
     $record = $form_state['input']['submitted'];
 
     // Add a timestamp
-    $record['time'] = time();
+    $record['timestamp'] = time();
 
     // Convenient to use the Drupal function, since all the field names = the $record keys.
     drupal_write_record('', $record);
