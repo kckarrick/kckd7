@@ -11,7 +11,7 @@
 /**
  *  Implementation of hook_schema().
  */
-function donate_ex_schools_schema() {
+function donate_ex_schema() {
   $schema = array();
 
   $schema['donate_ex_payments'] = array(
